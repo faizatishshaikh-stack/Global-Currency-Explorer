@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+currency/node_modules/
+
+# Redundant Documentation & Specification Files
+markdown files/
+currency/markdown files/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+
+# Operating System & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary / Build Files & Deployments
+.vercel/
+currency/.vercel/
+dist/
+build/

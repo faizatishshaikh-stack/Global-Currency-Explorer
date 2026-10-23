@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Currency Explorer</title>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Top Navigation / Header -->
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-symbol">$</span>
+                <h1>Global Currency Explorer</h1>
+            </div>
+            <div class="header-controls">
+                <span id="network-status" class="status-indicator">Connected</span>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- Hero Converter Section -->
+            <section class="converter-hero">
+                <div class="converter-controls-grid">
+                    <!-- Left: Amount Section -->
+                    <div class="amount-column">
+                        <label for="amount" class="control-label">AMOUNT</label>
+                        <div class="amount-input-wrap">
+                            <input type="number" id="amount" value="100" step="any" min="0" placeholder="0" class="amount-input">
+                        </div>
+                        <div class="quick-amounts">
+                            <button class="quick-btn" data-val="10" type="button">10</button>
+                            <button class="quick-btn active" data-val="100" type="button">100</button>
+                            <button class="quick-btn" data-val="500" type="button">500</button>
+                            <button class="quick-btn" data-val="1000" type="button">1K</button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Currencies & Convert Section -->
+                    <div class="currencies-column">
+                        <div class="selectors-row">
+                            <!-- FROM Dropdown -->
+                            <div class="currency-group">
+                                <label for="from-toggle" class="control-label">FROM</label>
+                                <div class="custom-dropdown" id="dropdown-from" data-type="from">
+                                    <button class="dropdown-toggle" id="from-toggle" aria-expanded="false" type="button">
+                                        <div class="dropdown-selected" id="from-selected">Loading...</div>
+                                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-search-box">
+                                            <input type="text" class="dropdown-search" placeholder="Search currencies...">
+                                        </div>
+                                        <ul class="dropdown-list" id="from-list"></ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Swap Button -->
+                            <div class="swap-wrap">
+                                <button id="swap-btn" class="swap-circle-btn" aria-label="Swap currencies" type="button" title="Swap currencies">
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 19V5m0 0L4 9m4-4l4 4M16 5v14m0 0l4-4m-4 4l-4-4"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- TO Dropdown -->
+                            <div class="currency-group">
+                                <label for="to-toggle" class="control-label">TO</label>
+                                <div class="custom-dropdown" id="dropdown-to" data-type="to">
+                                    <button class="dropdown-toggle" id="to-toggle" aria-expanded="false" type="button">
+                                        <div class="dropdown-selected" id="to-selected">Loading...</div>
+                                        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-search-box">
+                                            <input type="text" class="dropdown-search" placeholder="Search currencies...">
+                                        </div>
+                                        <ul class="dropdown-list" id="to-list"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Convert Button -->
+                        <div class="convert-row">
+                            <button id="convert-btn" class="btn-convert" type="button">Convert</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results & National Bank Card Section -->
+            <section class="results-section">
+                <!-- Left: Conversion Output / Empty State -->
+                <div class="result-details-col">
+                    <div class="thin-section-divider"></div>
+                    <div id="conversion-details" class="conversion-details-box">
+                        <p class="empty-state">Choose currencies and enter an amount to see the conversion.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Green National Bank Card -->
+                <div class="card-display-col">
+                    <div class="note-scene">
+                        <div class="note-wrapper" id="note-wrapper" title="Click to flip note between From &amp; To">
+                            <!-- Front Note (From Currency) -->
+                            <div class="banknote front" id="note-front">
+                                <div class="card-top-row">
+                                    <span class="card-bank-label" id="note-front-bank">NATIONAL BANK</span>
+                                    <div class="card-symbol-badge" id="note-front-symbol">$</div>
+                                </div>
+                                <div class="card-amount-row">
+                                    <span class="card-amount" id="note-front-amount">100.00</span>
+                                </div>
+                                <div class="card-bottom-row">
+                                    <span class="card-code" id="note-front-code">USD</span>
+                                    <span class="card-country" id="note-front-country">United States</span>
+                                </div>
+                            </div>
+
+                            <!-- Back Note (To Currency) -->
+                            <div class="banknote back" id="note-back">
+                                <div class="card-top-row">
+                                    <span class="card-bank-label" id="note-back-bank">NATIONAL BANK</span>
+                                    <div class="card-symbol-badge" id="note-back-symbol">₹</div>
+                                </div>
+                                <div class="card-amount-row">
+                                    <span class="card-amount" id="note-back-amount">9,614.00</span>
+                                </div>
+                                <div class="card-bottom-row">
+                                    <span class="card-code" id="note-back-code">INR</span>
+                                    <span class="card-country" id="note-back-country">India</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note-flip-hint">
+                        <span>⟳ Click banknote to flip between From &amp; To</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lower Layout: Rates & History -->
+            <div class="secondary-grid">
+                <!-- Global Rates Table -->
+                <section class="global-rates-panel">
+                    <div class="panel-header">
+                        <h2>Global Rates</h2>
+                        <div class="rates-actions">
+                            <div class="custom-dropdown small-dropdown" id="dropdown-base" data-type="base">
+                                <button class="dropdown-toggle small-toggle" id="base-toggle" aria-expanded="false" type="button">
+                                    <span class="dropdown-selected" id="base-selected">Loading...</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-search-box">
+                                        <input type="text" class="dropdown-search" placeholder="Search currencies...">
+                                    </div>
+                                    <ul class="dropdown-list" id="base-list"></ul>
+                                </div>
+                            </div>
+                            <input type="text" id="search-rates" class="input-search" placeholder="Search currency...">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="rates-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Currency</th>
+                                    <th class="text-right">Exchange Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rates-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Recent Conversions -->
+                <section class="history-panel">
+                    <div class="panel-header">
+                        <h2>Recent Conversions</h2>
+                        <button id="clear-history-btn" class="btn-text" type="button">Clear</button>
+                    </div>
+                    <ul id="history-list" class="history-list">
+                        <!-- Populated by JS -->
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
